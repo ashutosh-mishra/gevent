@@ -62,6 +62,7 @@ install:
 
   # Install Python (from the official .msi of http://python.org) and pip when
   # not already installed.
+  # PyPy portion based on https://github.com/wbond/asn1crypto/blob/master/appveyor.yml
   - ps:
       $env:PYTMP = "${env:TMP}\py";
       if (!(Test-Path "$env:PYTMP")) {
@@ -79,7 +80,7 @@ install:
         & "${env:PYTHON}\bin\pip.exe" --disable-pip-version-check --quiet install flake8;
 
       }
-      elif (-not(Test-Path($env:PYTHON))) { & appveyor\install.ps1 }
+      elseif (-not(Test-Path($env:PYTHON))) { & appveyor\install.ps1 }
 
   # Prepend newly installed Python to the PATH of this build (this cannot be
   # done from inside the powershell script as it would require to restart
