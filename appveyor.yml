@@ -110,7 +110,7 @@ install:
   - "move gevent._util.* gevent"
 
 cache:
-  - "%TMP%\py"
+  - "%TMP%\\py\\"
 
 build: false  # Not a C# project, build stuff at the test step instead.
 
