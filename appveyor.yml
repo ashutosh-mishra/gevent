@@ -10,6 +10,10 @@ environment:
     # Pre-installed Python versions, which Appveyor may upgrade to
     # a later point release.
 
+    - PYTHON: "C:\\pypy-4.0.1-win32"
+      PYTHON_ID: "pypy"
+      PYTHON_EXE: pypy
+
     - PYTHON: "C:\\Python35"
       PYTHON_VERSION: "3.5.x" # currently 3.5.0
       PYTHON_ARCH: "32"
@@ -58,7 +62,24 @@ install:
 
   # Install Python (from the official .msi of http://python.org) and pip when
   # not already installed.
-  - ps: if (-not(Test-Path($env:PYTHON))) { & appveyor\install.ps1 }
+  - ps:
+      $env:PYTMP = "${env:TMP}\py";
+      if (!(Test-Path "$env:PYTMP")) {
+        New-Item -ItemType directory -Path "$env:PYTMP" | Out-Null;
+      }
+      if ("${env:PYTHON_ID}" -eq "pypy") {
+        if (!(Test-Path "${env:PYTMP}\pypy-4.0.1-win32.zip")) {
+          (New-Object Net.WebClient).DownloadFile('https://bitbucket.org/pypy/pypy/downloads/pypy-4.0.1-win32.zip', "${env:PYTMP}\pypy-4.0.1-win32.zip");
+        }
+        7z x -y "${env:PYTMP}\pypy-4.0.1-win32.zip" -oC:\ | Out-Null;
+        if (!(Test-Path "${env:PYTMP}\get-pip.py")) {
+          (New-Object Net.WebClient).DownloadFile('https://bootstrap.pypa.io/get-pip.py', "${env:PYTMP}\get-pip.py");
+        }
+        & "${env:PYTHON}\pypy.exe" "${env:PYTMP}\get-pip.py";
+        & "${env:PYTHON}\bin\pip.exe" --disable-pip-version-check --quiet install flake8;
+
+      }
+      elif (-not(Test-Path($env:PYTHON))) { & appveyor\install.ps1 }
 
   # Prepend newly installed Python to the PATH of this build (this cannot be
   # done from inside the powershell script as it would require to restart
@@ -87,6 +108,9 @@ install:
   - "del gevent\\_semaphore.py"
   - "cython -o gevent._util.c gevent/_util.pyx"
   - "move gevent._util.* gevent"
+
+cache:
+  - '%TMP%\py\'
 
 build: false  # Not a C# project, build stuff at the test step instead.
 
