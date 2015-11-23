@@ -77,7 +77,6 @@ install:
           (New-Object Net.WebClient).DownloadFile('https://bootstrap.pypa.io/get-pip.py', "${env:PYTMP}\get-pip.py");
         }
         & "${env:PYTHON}\pypy.exe" "${env:PYTMP}\get-pip.py";
-        & "${env:PYTHON}\bin\pip.exe" --disable-pip-version-check --quiet install flake8;
 
       }
       elseif (-not(Test-Path($env:PYTHON))) { & appveyor\install.ps1 }
@@ -85,7 +84,7 @@ install:
   # Prepend newly installed Python to the PATH of this build (this cannot be
   # done from inside the powershell script as it would require to restart
   # the parent CMD process).
-  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PYTHON%\\bin;%PATH%"
 
   # Check that we have the expected version and architecture for Python
   - "python --version"
@@ -111,7 +110,7 @@ install:
   - "move gevent._util.* gevent"
 
 cache:
-  - '%TMP%\py\'
+  - "%TMP%\py\\"
 
 build: false  # Not a C# project, build stuff at the test step instead.
 
