@@ -892,7 +892,7 @@ class io(watcher):
     fd = property(_get_fd, _set_fd)
 
     def _get_events(self):
-        return vfd_get(self._watcher.fd)
+        return self._watcher.events
 
     def _set_events(self, events):
         if libev.ev_is_active(self._watcher):
