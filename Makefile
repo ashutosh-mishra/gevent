@@ -175,7 +175,7 @@ test-py26: $(PY26)
 	PYTHON=python2.6 PATH=$(BUILD_RUNTIMES)/versions/python2.6/bin:$(PATH) make develop fulltoxtest
 
 test-py33: $(PY33)
-	PYTHON=python3.3 PATH=$(BUILD_RUNTIMES)/versions/python3.4/bin:$(PATH) make develop fulltoxtest
+	PYTHON=python3.3 PATH=$(BUILD_RUNTIMES)/versions/python3.3/bin:$(PATH) make develop fulltoxtest
 
 test-py34: $(PY34)
 	PYTHON=python3.4 PATH=$(BUILD_RUNTIMES)/versions/python3.4/bin:$(PATH) make develop fulltoxtest
