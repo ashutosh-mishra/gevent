@@ -9,11 +9,11 @@ env:
     matrix:
       - TASK=lint-py27
       - TASK=test-py27
-      - TASK=test=py26
+      - TASK=test-py26
       - TASK=test-py33
       - TASK=test-py34
       - TASK=test-py35
-      - TASK=test-pypy-40
+      - TASK=test-pypy
 
 matrix:
   fast_finish: true

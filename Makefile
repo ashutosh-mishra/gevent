@@ -166,22 +166,22 @@ develop:
 	${PYTHON} setup.py develop
 
 lint-py27: $(PY27)
-	PYTHON=python2.7 make develop travis_test_linters
+	PYTHON=python2.7 PATH=$(BUILD_RUNTIMES)/versions/python2.7/bin:$(PATH) make develop travis_test_linters
 
 test-py27: $(PY27)
-	PYTHON=python2.7 make develop fulltoxtest
+	PYTHON=python2.7 PATH=$(BUILD_RUNTIMES)/versions/python2.7/bin:$(PATH) make develop fulltoxtest
 
 test-py26: $(PY26)
-	PYTHON=python2.6 make develop fulltoxtest
+	PYTHON=python2.6 PATH=$(BUILD_RUNTIMES)/versions/python2.6/bin:$(PATH) make develop fulltoxtest
 
-test-py33: $(PY3.3)
-	PYTHON=python3.3 make develop fulltoxtest
+test-py33: $(PY33)
+	PYTHON=python3.3 PATH=$(BUILD_RUNTIMES)/versions/python3.4/bin:$(PATH) make develop fulltoxtest
 
 test-py34: $(PY34)
-	PYTHON=python3.4 make develop fulltoxtest
+	PYTHON=python3.4 PATH=$(BUILD_RUNTIMES)/versions/python3.4/bin:$(PATH) make develop fulltoxtest
 
 test-py35: $(PY35)
-	PYTHON=python3.5 make develop fulltoxtest
+	PYTHON=python3.5 PATH=$(BUILD_RUNTIMES)/versions/python3.5/bin:$(PATH) make develop fulltoxtest
 
 test-pypy: $(PYPY)
-	PYTHON=python3.4 make develop fulltoxtest
+	PYTHON=pypy PATH=$(BUILD_RUNTIMES)/versions/pypy/bin:$(PATH) make develop fulltoxtest
